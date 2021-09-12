@@ -1,24 +1,23 @@
 package org.montrealjug.meetups.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.Instant;
 import java.util.Objects;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonDeserialize(using = EventDeserializer.class)
 public class Event{
-    @JsonProperty("time") Instant instant;
+    Instant instant;
     String name;
-    Venue venue;
-
-    public Event(Instant instant, String name, Venue venue) {
-        this.instant = instant;
-        this.name = name;
-        this.venue = venue;
-    }
+    String venueName;
 
     public Event() {
+    }
+
+    public Event(Instant instant, String name, String venueName) {
+        this.instant = instant;
+        this.name = name;
+        this.venueName = venueName;
     }
 
     public Instant getInstant() {
@@ -37,12 +36,12 @@ public class Event{
         this.name = name;
     }
 
-    public Venue getVenue() {
-        return venue;
+    public String getVenueName() {
+        return venueName;
     }
 
-    public void setVenue(Venue venue) {
-        this.venue = venue;
+    public void setVenueName(String venueName) {
+        this.venueName = venueName;
     }
 
     @Override
@@ -50,12 +49,12 @@ public class Event{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
-        return Objects.equals(instant, event.instant) && Objects.equals(name, event.name) && Objects.equals(venue, event.venue);
+        return Objects.equals(instant, event.instant) && Objects.equals(name, event.name) && Objects.equals(venueName, event.venueName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(instant, name, venue);
+        return Objects.hash(instant, name, venueName);
     }
 
     @Override
@@ -63,7 +62,7 @@ public class Event{
         return "Event{" +
                 "instant=" + instant +
                 ", name='" + name + '\'' +
-                ", venue=" + venue +
+                ", venueName='" + venueName + '\'' +
                 '}';
     }
 }

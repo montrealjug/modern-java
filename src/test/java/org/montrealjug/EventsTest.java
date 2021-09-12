@@ -58,8 +58,8 @@ public class EventsTest {
                 DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
                         .withLocale(Locale.CANADA_FRENCH)
                         .withZone(ZoneId.systemDefault());
-        events.stream().filter(event -> event.getVenue() != null).forEach(event -> {
-            var venueName = event.getVenue().getName();
+        events.stream().filter(event -> event.getVenueName() != null).forEach(event -> {
+            var venueName = event.getVenueName();
             String result = null;
             switch (venueName) {
                 case "Ulule" : {
@@ -79,10 +79,9 @@ public class EventsTest {
                 }
                 default : result = "No pizza nor beer:-(";
             };
-            System.out.println(event.getName() + "on the " + formatter.format(event.getInstant().atZone(ZoneId.of("America/Montreal"))) + " at " + event.getVenue().getName() + " had this : " + result);
+            System.out.println(event.getName() + "on the " + formatter.format(event.getInstant().atZone(ZoneId.of("America/Montreal"))) + " at " + venueName + " had this : " + result);
 
         });
-
 
     }
 

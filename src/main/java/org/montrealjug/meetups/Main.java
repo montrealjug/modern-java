@@ -5,6 +5,8 @@ import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 @QuarkusMain
 public class Main {
@@ -14,6 +16,7 @@ public class Main {
     }
 
     public static class MyApp implements QuarkusApplication {
+        public static final ZoneId MONTREAL_ZONE_ID = ZoneId.of("America/Montreal");
 
         @Inject
         MeetupService meetupService;
@@ -21,7 +24,10 @@ public class Main {
         @Override
         public int run(String... args) {
 
-            meetupService.retrieveAllPastJugsEvents().forEach(System.out::println);
+            meetupService.retrieveAllPastJugsEvents().forEach(event -> {
+                System.out.println(LocalDate.ofInstant(event.getInstant(), MONTREAL_ZONE_ID));
+                System.out.println("    " + event.getName() + ", at " + event.getVenueName());
+            });
 
             Quarkus.waitForExit();
             return 0;
