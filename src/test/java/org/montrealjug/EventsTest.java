@@ -26,19 +26,17 @@ public class EventsTest {
     @Test
     public void testEvents() throws IOException {
 
-        String sampleEvents = """
-                [
-                  {
-                    "name": "Java 17 (LTS): C'est aujourd'hui! - Henri Tremblay",
-                    "time": 1631635200000
-                  },
-                  {
-                    "name": "JHipster, LE générateur Yeoman à la mode.",
-                    "time": 1413495000000
-                  }
-                ]
-                                
-                """;
+        String sampleEvents = "" +
+                "                [\n" +
+                "                  {\n" +
+                "                    \"name\": \"Java 17 (LTS): C'est aujourd'hui! - Henri Tremblay\",\n" +
+                "                    \"time\": 1631635200000\n" +
+                "                  },\n" +
+                "                  {\n" +
+                "                    \"name\": \"JHipster, LE générateur Yeoman à la mode.\",\n" +
+                "                    \"time\": 1413495000000\n" +
+                "                  }\n" +
+                "                ]";
 
 //        var resourceAsStream = this.getClass().getResourceAsStream("/events.json");
 //        String text = new String(resourceAsStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -60,22 +58,30 @@ public class EventsTest {
                 DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
                         .withLocale(Locale.CANADA_FRENCH)
                         .withZone(ZoneId.systemDefault());
-        events.stream().filter(event -> event.venue() != null).forEach(event -> {
-            var venueName = event.venue().name();
-            var result = switch (venueName) {
-                case "Ulule", "Oracle Canada" -> {
-                    yield "Pizza";
+        events.stream().filter(event -> event.getVenue() != null).forEach(event -> {
+            var venueName = event.getVenue().getName();
+            String result = null;
+            switch (venueName) {
+                case "Ulule" : {
+                     result = "Pizza";
                 }
-                case "Adaptive Inc", "Desjardins Digital", "Tour Intact" -> {
-                    yield "Pizza and beer";
+                case "Oracle Canada" : {
+                    result = "Pizza";
                 }
-                default -> "No pizza nor beer:-(";
+                case "Adaptive Inc" : {
+                    result = "Pizza and beer";
+                }
+                case "Desjardins Digital" : {
+                    result = "Pizza and beer";
+                }
+                case "Tour Intact" : {
+                    result = "Pizza and beer";
+                }
+                default : result = "No pizza nor beer:-(";
             };
-            System.out.println(event.name() + "on the " + formatter.format(event.instant().atZone(ZoneId.of("America/Montreal"))) + " at " + event.venue().name() + " had this : " + result);
+            System.out.println(event.getName() + "on the " + formatter.format(event.getInstant().atZone(ZoneId.of("America/Montreal"))) + " at " + event.getVenue().getName() + " had this : " + result);
 
         });
-
-//        assertEquals("Java 17 (LTS): C'est aujourd'hui! - Henri Tremblay", objectMapper.readTree(sampleEvents).get(0).get("name").asText());
 
 
     }
