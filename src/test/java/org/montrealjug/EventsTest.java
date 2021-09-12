@@ -75,9 +75,6 @@ public class EventsTest {
 
         });
 
-//        assertEquals("Java 17 (LTS): C'est aujourd'hui! - Henri Tremblay", objectMapper.readTree(sampleEvents).get(0).get("name").asText());
-
-
     }
 
 }

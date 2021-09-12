@@ -25,8 +25,8 @@ public class Main {
         public int run(String... args) {
 
             meetupService.retrieveAllPastJugsEvents().forEach(event -> {
-                System.out.println(LocalDate.ofInstant(event.getInstant(), MONTREAL_ZONE_ID));
-                System.out.println("    " + event.getName() + ", at " + event.getVenueName());
+                System.out.println(LocalDate.ofInstant(event.instant(), MONTREAL_ZONE_ID));
+                System.out.println((event.name() + ", at " + event.venueName()).indent(4));
             });
 
             Quarkus.waitForExit();

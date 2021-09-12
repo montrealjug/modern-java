@@ -14,23 +14,20 @@ public class EventDeserializer extends JsonDeserializer {
 
     @Override
     public Event deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-        Event event = new Event();
         TreeNode treeNode = jsonParser.getCodec().readTree(jsonParser);
         TreeNode venueTreeNode = treeNode.get("venue");
+        String venueName = "", eventName = null; Instant instant = null;
         if (venueTreeNode != null && venueTreeNode.size() > 0) {
-            if (venueTreeNode.get("name") instanceof TextNode) {
-                TextNode name = (TextNode) venueTreeNode.get("name");
-                event.setVenueName(name.asText());
+            if (venueTreeNode.get("name") instanceof TextNode venueTextNode) {
+                venueName = venueTextNode.asText();
             }
         }
-        if (treeNode.get("time") instanceof LongNode) {
-            LongNode time = (LongNode) treeNode.get("time");
-            event.setInstant(Instant.ofEpochMilli(time.longValue()));
+        if (treeNode.get("time") instanceof LongNode timeLongNode) {
+            instant = Instant.ofEpochMilli(timeLongNode.longValue());
         }
-        if (treeNode.get("name") instanceof TextNode) {
-            TextNode name = (TextNode) treeNode.get("name");
-            event.setName(name.asText());
+        if (treeNode.get("name") instanceof TextNode nameTextNode) {
+            eventName = nameTextNode.asText();
         }
-        return event;
+        return new Event(instant, eventName, venueName);
     }
 }
