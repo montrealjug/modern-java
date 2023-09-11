@@ -63,12 +63,8 @@ public class EventsTest {
         events.stream().filter(event -> event.venueName() != null).forEach(event -> {
             var venueName = event.venueName();
             var result = switch (venueName) {
-                case "Ulule", "Oracle Canada" -> {
-                    yield "Pizza";
-                }
-                case "Adaptive Inc", "Desjardins Digital", "Tour Intact" -> {
-                    yield "Pizza and beer";
-                }
+                case "Ulule", "Oracle Canada" -> "Pizza";
+                case "Adaptive Inc", "Desjardins Digital", "Tour Intact" -> "Pizza and beer";
                 default -> "No pizza nor beer:-(";
             };
             System.out.println(event.name() + "on the " + formatter.format(event.instant().atZone(ZoneId.of("America/Montreal"))) + " at " + venueName + " had this : " + result);
